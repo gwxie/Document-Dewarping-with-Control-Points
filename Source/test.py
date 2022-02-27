@@ -126,7 +126,7 @@ if __name__ == '__main__':
     parser.add_argument('--schema', type=str, default='test',
                         help='train or test')       # train  validate
 
-    parser.set_defaults(resume='/home/work/gwxie/hope/project/dewarp/ICDAR2021/2021-02-03 16:15:55/143/2021-02-03 16_15_55flat_img_by_fiducial_points-fiducial1024_v1.pkl')
+    parser.set_defaults(resume='./ICDAR2021/2021-02-03 16:15:55/143/2021-02-03 16_15_55flat_img_by_fiducial_points-fiducial1024_v1.pkl')
 
     parser.add_argument('--parallel', default='1', type=list,
                         help='choice the gpu id for parallel ')
