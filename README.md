@@ -9,8 +9,13 @@
 
 See [“Document Dewarping with Control Points”](https://arxiv.org/pdf/2203.10543.pdf) for more information.
 
+# Quick Start
 
+# Requirements
+<p>python >=3.7</p>
+<p>pytorch</p>
+<p>opencv-python</p>
+<p>scipy</p>
 
-
-# Compare
+# Visualization
 ![image](https://github.com/gwxie/Document-Dewarping-with-Control-Points/blob/main/compare.jpg)
