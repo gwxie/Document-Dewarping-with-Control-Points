@@ -10,7 +10,9 @@
 See [“Document Dewarping with Control Points”](https://arxiv.org/pdf/2203.10543.pdf) for more information.
 
 # Quick Start
+- Test `python test.py --data_path_test=./your/test/data/path/`
 
+- Train `python train.py --data_path_train=./your/train/data/path/ --data_path_validate=./your/validate/data/path/ --data_path_test=./your/test/data/path/ --batch_size 32 --schema train --parallel 01`
 # Requirements
 <p>python >=3.7</p>
 <p>pytorch</p>
