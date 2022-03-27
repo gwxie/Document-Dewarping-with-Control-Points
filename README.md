@@ -21,3 +21,7 @@ See [“Document Dewarping with Control Points”](https://arxiv.org/pdf/2203.10
 
 # Visualization
 ![image](https://github.com/gwxie/Document-Dewarping-with-Control-Points/blob/main/compare.jpg)
+
+
+# Dataset
+The training dataset can be synthesised using the [scripts](https://github.com/gwxie/Synthesize-Distorted-Image-and-Its-Control-Points).
