@@ -13,7 +13,8 @@ import re
 
 from network import FiducialPoints, DilatedResnetForFlatByFiducialPointsS2
 
-import utilsV3 as utils
+# import utilsV3 as utils
+import utilsV4 as utils
 
 from dataloader import PerturbedDatastsForFiducialPoints_pickle_color_v2_v2
 
@@ -107,13 +108,13 @@ if __name__ == '__main__':
     parser.add_argument('--print-freq', '-p', default=60, type=int,
                         metavar='N', help='print frequency (default: 10)')  # print frequency
 
-    parser.add_argument('--data_path_train', default='./dataset/unwarp_new/train/fiducial1024/fiducial1024_v1/color/', type=str,
+    parser.add_argument('--data_path_train', default='./dataset/fiducial1024/fiducial1024_v1/color/', type=str,
                         help='the path of train images.')  # train image path
 
-    parser.add_argument('--data_path_validate', default='./dataset/unwarp_new/train/fiducial1024/fiducial1024_v1/validate/', type=str,
+    parser.add_argument('--data_path_validate', default='./dataset/fiducial1024/fiducial1024_v1/validate/', type=str,
                         help='the path of validate images.')  # validate image path
 
-    parser.add_argument('--data_path_test', default='./dataset/shrink_1024_960/crop/', type=str, help='the path of test images.')
+    parser.add_argument('--data_path_test', default='./data/', type=str, help='the path of test images.')
 
     parser.add_argument('--output-path', default='./flat/', type=str, help='the path is used to  save output --img or result.')  # GPU id ---choose the GPU id that will be used
 
