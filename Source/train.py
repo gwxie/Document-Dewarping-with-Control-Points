@@ -1,8 +1,19 @@
 '''
 2021/2/3
-
 Guowang Xie
 
+args：
+    n_epoch：epoch values for training
+    optimizer：various optimization algorithms
+    l_rate：initial learning rate
+    resume：the path of trained model parameter after
+    data_path_train：datasets path for training
+    data_path_validate：datasets path for validating
+    data_path_test：datasets path for testing
+    output-path：output path
+    batch_size：
+    schema：test or train
+    parallel：number of gpus used， like 0, or, 0123
 '''
 import os
 import argparse
