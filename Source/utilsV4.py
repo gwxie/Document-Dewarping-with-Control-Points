@@ -5,18 +5,13 @@ from utilsV3.py
 import torch
 from torch.utils import data
 from torch.autograd import Variable, Function
-
 import numpy as np
-
 import sys, os, math
-
 import cv2
 import time
 import re
-
 import random
 from scipy.interpolate import griddata
-
 from tpsV2 import createThinPlateSplineShapeTransformer
 
 def adjust_position(x_min, y_min, x_max, y_max, new_shape):
@@ -42,6 +37,13 @@ def get_matric_edge(matric):
 
 
 class SaveFlatImage(object):
+    '''
+    Post-processing and save result.
+    Function:
+        flatByRegressWithClassiy_multiProcessV2: Selecting a post-processing method
+        flatByfiducial_TPS: Thin Plate Spline, input multi-batch
+        flatByfiducial_interpolation: Interpolation, input one image
+    '''
     def __init__(self, path, date, date_time, _re_date, data_path_validate, data_path_test, batch_size, preproccess=False, postprocess='tps_gpu', device=torch.device('cuda:0')):
         self.path = path
         self.date = date
@@ -73,7 +75,9 @@ class SaveFlatImage(object):
         return img
 
     def flatByfiducial_TPS(self, fiducial_points, segment, im_name, epoch, perturbed_img=None, scheme='validate', is_scaling=False):
-        ''''''
+        '''
+        flat_shap controls the output image resolution
+        '''
         # if (scheme == 'test' or scheme == 'eval') and is_scaling:
         #     pass
         # else:
@@ -222,6 +226,10 @@ class AverageMeter(object):
         self.avg = self.sum / self.count
 
 class FlatImg(object):
+    '''
+    args:
+        self.save_flat_mage:Initialize the post-processing. Select a method in "postprocess_list".
+    '''
     def __init__(self, args, path, date, date_time, _re_date, model,\
                  reslut_file, n_classes, optimizer, \
                  model_D=None, optimizer_D=None, \
