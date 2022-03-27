@@ -1,6 +1,7 @@
 # Download training Data
 
-Link: https://pan.baidu.com/s/1mPHW6w2LdPg4wwIPnoFwPA  Password: qe50
+Link: https://pan.baidu.com/s/1bZ9B7oZuxsMNRDZGz89Mbg?pwd=9fck  Password: 9fck
+
 
 # unzip
 ```bash
