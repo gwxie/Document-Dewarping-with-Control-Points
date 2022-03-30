@@ -87,7 +87,7 @@ class SaveFlatImage(object):
             perturbed_img = cv2.resize(perturbed_img, (960, 1024))
         elif scheme == 'validate' and perturbed_img is None:
             RGB_name = im_name.replace('gw', 'png')
-            perturbed_img_path = self.data_path_validate + self.data_split + '/validate/png/' + RGB_name
+            perturbed_img_path = self.data_path_validate + '/png/' + RGB_name
             perturbed_img = cv2.imread(perturbed_img_path, flags=cv2.IMREAD_COLOR)
         elif perturbed_img is not None:
             perturbed_img = perturbed_img.transpose(1, 2, 0)
@@ -105,7 +105,7 @@ class SaveFlatImage(object):
         rectified = self.tps(perturbed_img_.double().to(self.device), fiducial_points_.to(self.device), list(flat_shap))
         time_2 = time.time()
         time_interval = time_2 - time_1
-        print('TPS time: '+time_interval)
+        print('TPS time: '+ str(time_interval))
 
         flat_img = rectified[0].cpu().numpy().transpose(1,2,0)
 
@@ -137,7 +137,7 @@ class SaveFlatImage(object):
             perturbed_img = cv2.resize(perturbed_img, (960, 1024))
         elif scheme == 'validate' and perturbed_img is None:
             RGB_name = im_name.replace('gw', 'png')
-            perturbed_img_path = self.data_path_validate + self.data_split + '/validate/png/' + RGB_name
+            perturbed_img_path = self.data_path_validate + '/png/' + RGB_name
             perturbed_img = cv2.imread(perturbed_img_path, flags=cv2.IMREAD_COLOR)
         elif perturbed_img is not None:
             perturbed_img = perturbed_img.transpose(1, 2, 0)
@@ -168,7 +168,7 @@ class SaveFlatImage(object):
         flat_img = cv2.remap(perturbed_img, grid_[:, :, 0], grid_[:, :, 1], cv2.INTER_CUBIC)
         time_2 = time.time()
         time_interval = time_2 - time_1
-        print('Interpolation time: '+time_interval)
+        print('Interpolation time: '+ str(time_interval))
         ''''''
         flat_img = flat_img.astype(np.uint8)
 
