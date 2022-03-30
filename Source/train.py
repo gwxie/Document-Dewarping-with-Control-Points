@@ -2,26 +2,30 @@
 2021/2/3
 Guowang Xie
 
-args：
-    n_epoch：epoch values for training
-    optimizer：various optimization algorithms
-    l_rate：initial learning rate
-    resume：the path of trained model parameter after
-    data_path_train：datasets path for training
-    data_path_validate：datasets path for validating
-    data_path_test：datasets path for testing
-    output-path：output path
-    batch_size：
-    schema：test or train
-    parallel：number of gpus used， like 0, or, 0123
+args:
+    n_epoch:epoch values for training
+    optimizer:various optimization algorithms
+    l_rate:initial learning rate
+    resume:the path of trained model parameter after
+    data_path_train:datasets path for training
+    data_path_validate:datasets path for validating
+    data_path_test:datasets path for testing
+    output-path:output path
+    batch_size:
+    schema:test or train
+    parallel:number of gpus used, like 0, or, 0123
+
 '''
-import os
+import os, sys
 import argparse
 import torch
 from torch.autograd import Variable
 import warnings
 import time
 import re
+from pathlib import Path
+FILE = Path(__file__).resolve()
+ROOT = FILE.parents[0]
 
 from network import FiducialPoints, DilatedResnetForFlatByFiducialPointsS2
 
@@ -36,16 +40,16 @@ def train(args):
     global _re_date
     if args.resume is not None:
         re_date = re.compile(r'\d{4}-\d{1,2}-\d{1,2}')
-        _re_date = re_date.search(args.resume).group(0)
+        _re_date = re_date.search(args.resume.name).group(0)
         reslut_file = open(path + '/' + date + date_time + ' @' + _re_date + '_' + args.arch + '.log', 'w')
     else:
         _re_date = None
         reslut_file = open(path+'/'+date+date_time+'_'+args.arch+'.log', 'w')
 
     # Setup Dataloader
-    data_path = args.data_path_train
-    data_path_validate = args.data_path_validate
-    data_path_test = args.data_path_test
+    data_path = str(args.data_path_train)+'/'
+    data_path_validate = str(args.data_path_validate)+'/'
+    data_path_test = str(args.data_path_test)+'/'
 
     print(args)
     print(args, file=reslut_file)
@@ -84,9 +88,9 @@ def train(args):
             model.load_state_dict(checkpoint['model_state'])
             optimizer.load_state_dict(checkpoint['optimizer_state'])
             print("Loaded checkpoint '{}' (epoch {})"
-                  .format(args.resume, checkpoint['epoch']))
+                  .format(args.resume.name, checkpoint['epoch']))
         else:
-            print("No checkpoint found at '{}'".format(args.resume))
+            print("No checkpoint found at '{}'".format(args.resume.name))
 
     loss_fun_classes = Losses(classify_size_average=True, args_gpu=args.gpu)
     loss_fun = loss_fun_classes.loss_fn4_v5_r_4   # *
@@ -262,31 +266,29 @@ if __name__ == '__main__':
     parser.add_argument('--l_rate', nargs='?', type=float, default=0.0002,
                         help='Learning Rate')
 
-    parser.add_argument('--resume', nargs='?', type=str, default=None,
-                        help='Path to previous saved model to restart from')            # python segmentation_train.py --resume=./trained_model/fcn8s_pascla_2018-8-04_model.pkl
-
     parser.add_argument('--print-freq', '-p', default=60, type=int,
                         metavar='N', help='print frequency (default: 10)')  # print frequency
 
-    parser.add_argument('--data_path_train', default='./dataset/fiducial1024/fiducial1024_v1/', type=str,
+    parser.add_argument('--data_path_train', default=ROOT / 'dataset/fiducial1024/fiducial1024_v1/color/', type=str,
                         help='the path of train images.')  # train image path
 
-    parser.add_argument('--data_path_validate', default='./dataset/fiducial1024/fiducial1024_v1/validate/', type=str,
+    parser.add_argument('--data_path_validate', default=ROOT / 'dataset/fiducial1024/fiducial1024_v1/validate/', type=str,
                         help='the path of validate images.')  # validate image path
 
-    parser.add_argument('--data_path_test', default='./data/', type=str,
-                        help='the path of test images.')  # test image path
+    parser.add_argument('--data_path_test', default=ROOT / 'data/', type=str, help='the path of test images.')
 
-    parser.add_argument('--output-path', default='./flat/', type=str,
-                        help='the path is used to  save output --img or result.')  # GPU id ---choose the GPU id that will be used
+    parser.add_argument('--output-path', default=ROOT / 'flat/', type=str, help='the path is used to  save output --img or result.') 
+
+    parser.add_argument('--resume', default=ROOT / 'ICDAR2021/2021-02-03 16:15:55/143/2021-02-03 16_15_55flat_img_by_fiducial_points-fiducial1024_v1.pkl', type=str, 
+                        help='Path to previous saved model to restart from')    
 
     parser.add_argument('--batch_size', nargs='?', type=int, default=2,
                         help='Batch Size')#28
 
-    parser.add_argument('--schema', type=str, default='train',
+    parser.add_argument('--schema', type=str, default='test',
                         help='train or test')       # train  validate
 
-    parser.set_defaults(resume='./ICDAR2021/2021-02-03 16:15:55/143/2021-02-03 16_15_55flat_img_by_fiducial_points-fiducial1024_v1.pkl')
+    # parser.set_defaults(resume='./ICDAR2021/2021-02-03 16:15:55/143/2021-02-03 16_15_55flat_img_by_fiducial_points-fiducial1024_v1.pkl')
 
     parser.add_argument('--parallel', default='1', type=list,
                         help='choice the gpu id for parallel ')
