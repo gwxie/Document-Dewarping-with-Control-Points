@@ -83,7 +83,7 @@ def train(args):
     if args.resume is not None:
         if os.path.isfile(args.resume):
             print("Loading model and optimizer from checkpoint '{}'".format(args.resume))
-            checkpoint = torch.load(args.resume)
+            checkpoint = torch.load(args.resume, map_location='cuda:'+str(args.gpu))
 
             model.load_state_dict(checkpoint['model_state'])
             optimizer.load_state_dict(checkpoint['optimizer_state'])
