@@ -17,7 +17,13 @@ Due to work, more information will be released.
 
 2、Resize the input image into 992x992
 
-3、Run `python test.py --data_path_test=./your/test/data/path/`
+3、Running 
+
+In GPU 0:
+`python test.py --data_path_test=./your/test/data/path/ --parallel 0 --schema test --batch_size 1`
+
+In CPU:
+`python test.py --data_path_test=./your/test/data/path/ --parallel None --schema test --batch_size 1`
 
 # Training
 a) Download training data in [here](https://github.com/gwxie/Document-Dewarping-with-Control-Points/tree/main/Source/dataset/fiducial1024).
