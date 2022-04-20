@@ -12,7 +12,7 @@ Due to work, more information will be released.
   
   Interpolation:flatByfiducial_interpolation</small> -->
 
-# Running
+# Testing
 1、Download model parameter and source codes 
 
 2、Resize the input image into 992x992
