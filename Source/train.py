@@ -1,5 +1,6 @@
 '''
 2021/2/3
+
 Guowang Xie
 
 args:
@@ -60,11 +61,13 @@ def train(args):
 
     if args.parallel is not None:
         device_ids = list(map(int, args.parallel))
-        args.gpu = device_ids[0]
-        if args.gpu < 8:
-            torch.cuda.set_device(args.gpu)
+        args.device = torch.device('cuda:'+str(device_ids[0]))
+
+        # args.gpu = device_ids[0]
+        # if args.gpu < 8:
+        torch.cuda.set_device(args.device)
         model = torch.nn.DataParallel(model, device_ids=device_ids)
-        model.cuda(args.gpu)
+        model.cuda(args.device)
     elif args.distributed:
         model.cuda()
         model = torch.nn.parallel.DistributedDataParallel(model)
@@ -83,7 +86,7 @@ def train(args):
     if args.resume is not None:
         if os.path.isfile(args.resume):
             print("Loading model and optimizer from checkpoint '{}'".format(args.resume))
-            checkpoint = torch.load(args.resume, map_location='cuda:'+str(args.gpu))
+            checkpoint = torch.load(args.resume, map_location=args.device)
 
             model.load_state_dict(checkpoint['model_state'])
             optimizer.load_state_dict(checkpoint['optimizer_state'])
@@ -92,7 +95,7 @@ def train(args):
         else:
             print("No checkpoint found at '{}'".format(args.resume.name))
 
-    loss_fun_classes = Losses(classify_size_average=True, args_gpu=args.gpu)
+    loss_fun_classes = Losses(classify_size_average=True, args_gpu=args.device)
     loss_fun = loss_fun_classes.loss_fn4_v5_r_4   # *
     # loss_fun = loss_fun_classes.loss_fn4_v5_r_3   # *
 
@@ -140,8 +143,8 @@ def train(args):
             for i, (images, labels, segment) in enumerate(trainloader):
 
                 images = Variable(images)
-                labels = Variable(labels.cuda(args.gpu))
-                segment = Variable(segment.cuda(args.gpu))
+                labels = Variable(labels.cuda(args.device))
+                segment = Variable(segment.cuda(args.device))
 
                 optimizer.zero_grad()
                 outputs, outputs_segment = FlatImg.model(images, is_softmax=False)
@@ -269,7 +272,7 @@ if __name__ == '__main__':
     parser.add_argument('--print-freq', '-p', default=60, type=int,
                         metavar='N', help='print frequency (default: 10)')  # print frequency
 
-    parser.add_argument('--data_path_train', default=ROOT / 'dataset/fiducial1024/fiducial1024_v1/color/', type=str,
+    parser.add_argument('--data_path_train', default=ROOT / 'dataset/fiducial1024/fiducial1024_v1/', type=str,
                         help='the path of train images.')  # train image path
 
     parser.add_argument('--data_path_validate', default=ROOT / 'dataset/fiducial1024/fiducial1024_v1/validate/', type=str,
