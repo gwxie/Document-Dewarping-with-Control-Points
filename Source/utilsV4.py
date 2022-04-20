@@ -259,7 +259,7 @@ class FlatImg(object):
         self.data_preproccess = data_preproccess
 
         postprocess_list = ['tps', 'interpolation']
-        self.save_flat_mage = SaveFlatImage(self.path, self.date, self.date_time, self._re_date, self.data_path_validate, self.data_path_test, self.args.batch_size, self.data_preproccess, postprocess=postprocess_list[0], device=torch.device('cuda:'+str(self.args.gpu)))
+        self.save_flat_mage = SaveFlatImage(self.path, self.date, self.date_time, self._re_date, self.data_path_validate, self.data_path_test, self.args.batch_size, self.data_preproccess, postprocess=postprocess_list[0], device=torch.device(self.args.device))
 
         self.validate_loss = AverageMeter()
         self.validate_loss_regress = AverageMeter()
@@ -314,7 +314,7 @@ class FlatImg(object):
         t1_loader = self.data_loader(self.data_path_test, split='test', img_shrink=self.args.img_shrink,
                                      is_return_img_name=True)
         testloader1 = data.DataLoader(t1_loader, batch_size=self.args.batch_size, num_workers=self.args.batch_size,
-                                      pin_memory=True, shuffle=False)
+                                      shuffle=False)
 
         '''test sets'''
         testloaderSet = {
@@ -369,8 +369,8 @@ class FlatImg(object):
                             # save_img_ = True
 
                             images = Variable(images)
-                            labels = Variable(labels.cuda(self.args.gpu))
-                            segment = Variable(segment.cuda(self.args.gpu))
+                            labels = Variable(labels.cuda(self.args.device))
+                            segment = Variable(segment.cuda(self.args.device))
 
                             outputs, outputs_segment = self.model(images)
 
