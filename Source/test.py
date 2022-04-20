@@ -58,13 +58,18 @@ def train(args):
 
     if args.parallel is not None:
         device_ids = list(map(int, args.parallel))
-        args.gpu = device_ids[0]
-        if args.gpu < 8:
-            torch.cuda.set_device(args.gpu)
+        args.device = torch.device('cuda:'+str(device_ids[0]))
+
+        # args.gpu = device_ids[0]
+        # if args.gpu < 8:
+        torch.cuda.set_device(args.device)
         model = torch.nn.DataParallel(model, device_ids=device_ids)
-        model.cuda(args.gpu)
+        model.cuda(args.device)
     else:
-        exit()
+        # exit()
+        args.device = torch.device('cpu')
+        print('using CPU!')
+
 
     if args.optimizer == 'SGD':
         optimizer = torch.optim.SGD(model.parameters(), lr=0.0001, momentum=0.8, weight_decay=1e-12)
@@ -77,10 +82,17 @@ def train(args):
     if args.resume is not None:
         if os.path.isfile(args.resume):
             print("Loading model and optimizer from checkpoint '{}'".format(args.resume))
-            checkpoint = torch.load(args.resume)
-
-            model.load_state_dict(checkpoint['model_state'])
-            optimizer.load_state_dict(checkpoint['optimizer_state'])
+            if args.parallel is not None:
+                checkpoint = torch.load(args.resume, map_location=args.device)
+                model.load_state_dict(checkpoint['model_state'])
+            else:
+                checkpoint = torch.load(args.resume, map_location=args.device)
+                '''cpu'''
+                model_parameter_dick = {}
+                for k in checkpoint['model_state']:
+                    model_parameter_dick[k.replace('module.', '')] = checkpoint['model_state'][k]
+                model.load_state_dict(model_parameter_dick)
+            
             print("Loaded checkpoint '{}' (epoch {})"
                   .format(args.resume.name, checkpoint['epoch']))
         else:
@@ -142,7 +154,7 @@ if __name__ == '__main__':
 
     # parser.set_defaults(resume='./ICDAR2021/2021-02-03 16:15:55/143/2021-02-03 16_15_55flat_img_by_fiducial_points-fiducial1024_v1.pkl')
 
-    parser.add_argument('--parallel', default='1', type=list,
+    parser.add_argument('--parallel', default=None, type=list,
                         help='choice the gpu id for parallel ')
 
     args = parser.parse_args()
