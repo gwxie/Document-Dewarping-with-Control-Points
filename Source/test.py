@@ -38,7 +38,7 @@ def train(args):
     global _re_date
     if args.resume is not None:
         re_date = re.compile(r'\d{4}-\d{1,2}-\d{1,2}')
-        _re_date = re_date.search(args.resume.name).group(0)
+        _re_date = re_date.search(str(args.resume)).group(0)
         reslut_file = open(path + '/' + date + date_time + ' @' + _re_date + '_' + args.arch + '.log', 'w')
     else:
         _re_date = None
