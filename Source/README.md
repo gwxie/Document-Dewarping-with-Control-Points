@@ -39,3 +39,7 @@ A: Adjusting the ‘flat_shap’ or 'output_shape' in utilsV4.py.
 https://github.com/gwxie/Document-Dewarping-with-Control-Points/blob/4c74853b0eb93f7c6006a774c2eb42c64f363531/Source/utilsV4.py#L99
 or
 https://github.com/gwxie/Document-Dewarping-with-Control-Points/blob/4c74853b0eb93f7c6006a774c2eb42c64f363531/Source/utilsV4.py#L162
+
+2. Q:How to open '*.gw' files?
+https://github.com/gwxie/Document-Dewarping-with-Control-Points/blob/0f4e9ac577fb001a719fb63b05cfa915fe3c9866/Source/dataloader.py#L146
+'im' is input images; 'lbl' is control points; 'segment' is the intervals of points between the horizontal and vertical directions;
