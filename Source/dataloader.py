@@ -71,7 +71,7 @@ class PerturbedDatastsForFiducialPoints_pickle_color_v2_v2(data.Dataset):
 		# self.mean = np.array([104.00699, 116.66877, 122.67892])
 		self.images = collections.defaultdict(list)
 		self.labels = collections.defaultdict(list)
-		self.row_gap = 1
+		self.row_gap = 1  # value:0, 1, 2;  POINTS NUM: 61, 31, 21
 		self.col_gap = 1
 		datasets = ['validate', 'test', 'train']
 
