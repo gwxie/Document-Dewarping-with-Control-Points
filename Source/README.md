@@ -45,6 +45,6 @@ https://github.com/gwxie/Document-Dewarping-with-Control-Points/blob/0f4e9ac577f
 'im' is input images; 'lbl' is control points; 'segment' is the intervals of points between the horizontal and vertical directions;
 
 3. Q:How to train the model again with 61 points?
-https://github.com/gwxie/Document-Dewarping-with-Control-Points/blob/ba4639ff1a0c8884d549e7fae3a9bddf1bef14ab/Source/dataloader.py#L185-L186
-https://github.com/gwxie/Document-Dewarping-with-Control-Points/blob/ba4639ff1a0c8884d549e7fae3a9bddf1bef14ab/Source/dataloader.py#L74-L75
+https://github.com/gwxie/Document-Dewarping-with-Control-Points/blob/1ad92be2995ee7f4ecdd04157350f2b44ecbd7e9/Source/dataloader.py#L185-L186
+https://github.com/gwxie/Document-Dewarping-with-Control-Points/blob/1ad92be2995ee7f4ecdd04157350f2b44ecbd7e9/Source/dataloader.py#L74-L75
 set  self.col_gap = 0; self.row_gap = 0
