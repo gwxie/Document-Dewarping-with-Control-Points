@@ -43,3 +43,9 @@ https://github.com/gwxie/Document-Dewarping-with-Control-Points/blob/4c74853b0eb
 2. Q:How to open '*.gw' files?
 https://github.com/gwxie/Document-Dewarping-with-Control-Points/blob/0f4e9ac577fb001a719fb63b05cfa915fe3c9866/Source/dataloader.py#L146
 'im' is input images; 'lbl' is control points; 'segment' is the intervals of points between the horizontal and vertical directions;
+
+3. Q:How to train the model again with 61 points?
+https://github.com/gwxie/Document-Dewarping-with-Control-Points/blob/ba4639ff1a0c8884d549e7fae3a9bddf1bef14ab/Source/dataloader.py#L185-L186
+set:
+https://github.com/gwxie/Document-Dewarping-with-Control-Points/blob/ba4639ff1a0c8884d549e7fae3a9bddf1bef14ab/Source/dataloader.py#L74-L75
+self.col_gap = 0; self.row_gap = 0
